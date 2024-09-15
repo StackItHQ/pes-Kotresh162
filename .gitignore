@@ -1,0 +1,11 @@
+# Ignoring node_modules in both dbsheet and server
+dbsheet/node_modules/
+server/node_modules/
+
+# Ignorinng build/dist folders
+dbsheet/dist/
+server/dist/
+
+# Ignoring .env if used
+dbsheet/.env
+server/.env
