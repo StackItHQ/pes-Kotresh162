@@ -86,9 +86,9 @@ async function run() {
                 );
                 res.status(200).json(result);
 
-                // await fetch('https://script.google.com/macros/s/AKfycbyiCgVT44K-YdnYnFkA6nQoDQwSQevNJlaLmCtx9x2QPGgAX-poHUcZ-J4EEtPANLdvFQ/exec');
+                await fetch('https://script.google.com/macros/s/AKfycbywIz0aj4SseSBlV_cTPnAAaOtb5viOQ3MUID8lnH52Ww3x3KEOAJxxEZZ9RAZPopofpw/exec');
 
-                // console.log('Google Sheet update triggered');
+                console.log('Google Sheet update triggered');
 
             } catch (error) {
                 res.status(500).json(error);
@@ -116,6 +116,9 @@ async function run() {
 
                 // Successful deletion
                 res.status(200).json({ message: 'User deleted successfully' });
+
+                await fetch('https://script.google.com/macros/s/AKfycbywIz0aj4SseSBlV_cTPnAAaOtb5viOQ3MUID8lnH52Ww3x3KEOAJxxEZZ9RAZPopofpw/exec');
+                console.log('Google Sheet update triggered');
             } catch (error) {
                 res.status(500).json({ message: 'Error deleting user', error });
                 console.error('Error deleting user:', error);
@@ -140,9 +143,9 @@ async function run() {
                 const result = await collection.insertOne(req.body);
                 res.status(200).json(result);
 
-                // await fetch('https://script.google.com/macros/s/AKfycbyiCgVT44K-YdnYnFkA6nQoDQwSQevNJlaLmCtx9x2QPGgAX-poHUcZ-J4EEtPANLdvFQ/exec');
-                 
-                // console.log('Google Sheet update triggered');
+                await fetch('https://script.google.com/macros/s/AKfycbywIz0aj4SseSBlV_cTPnAAaOtb5viOQ3MUID8lnH52Ww3x3KEOAJxxEZZ9RAZPopofpw/exec');
+
+                console.log('Google Sheet update triggered');
         
             } catch (error) {
                 res.status(500).json(error);
