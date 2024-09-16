@@ -102,12 +102,12 @@ async function run() {
             const id = req.params.id;
             try {
                 // Check if the ID is valid ObjectId
-                if (!ObjectId.isValid(id)) {
-                    return res.status(400).json({ message: 'Invalid User ID' });
-                }
+                // if (!ObjectId.isValid(id)) {
+                //     return res.status(400).json({ message: 'Invalid User ID' });
+                // }
 
                 // Attempt to delete the user
-                const result = await collection.deleteOne({ _id: new ObjectId(id) });
+                const result = await collection.deleteOne({ _id: id });
 
                 if (result.deletedCount === 0) {
                     // If no user was deleted (i.e., the user doesn't exist)
@@ -142,10 +142,6 @@ async function run() {
                 // If user with the given email doesn't exist, insert the new user
                 const result = await collection.insertOne(req.body);
                 res.status(200).json(result);
-
-                await fetch('https://script.google.com/macros/s/AKfycbywIz0aj4SseSBlV_cTPnAAaOtb5viOQ3MUID8lnH52Ww3x3KEOAJxxEZZ9RAZPopofpw/exec');
-
-                console.log('Google Sheet update triggered');
         
             } catch (error) {
                 res.status(500).json(error);
