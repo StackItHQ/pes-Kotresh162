@@ -30,14 +30,19 @@ async function run() {
         console.log("Connected to MongoDB!");
 
         app.post('/add-to-mongo', async (req, res) => {
-            const sheetData = req.body.data; 
-
+            const sheetData = req.body.data;
+        
+            // Check if sheetData is an array and not empty
+            if (!Array.isArray(sheetData) || sheetData.length === 0) {
+                return res.status(400).send('No data provided or data is empty');
+            }
+        
             try {
                 // Remove all existing data from the collection
-                await collection.deleteMany({}); 
-
+                await collection.deleteMany({});
+        
                 // Insert new data into MongoDB
-                const result = await collection.insertMany(sheetData); 
+                const result = await collection.insertMany(sheetData);
                 res.status(200).send('Data inserted successfully');
                 console.log('Data inserted:', result);
             } catch (error) {
@@ -45,6 +50,7 @@ async function run() {
                 console.error('Error inserting data:', error);
             }
         });
+        
 
         // API endpoint to get all users
         app.get('/', async (req, res) => {
@@ -78,9 +84,10 @@ async function run() {
                     { $set: { name: req.body.name, email: req.body.email, age: req.body.age } }
                 );
                 res.status(200).json(result);
-                
+
                 await fetch('https://script.google.com/macros/s/AKfycbyiCgVT44K-YdnYnFkA6nQoDQwSQevNJlaLmCtx9x2QPGgAX-poHUcZ-J4EEtPANLdvFQ/exec'); 
                 console.log('Google Sheet update triggered');
+
             } catch (error) {
                 res.status(500).json(error);
                 console.error('Error updating user:', error);
