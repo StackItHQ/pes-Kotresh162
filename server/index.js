@@ -60,6 +60,7 @@ async function run() {
             } catch (error) {
                 res.status(500).json(error);
                 console.error('Error fetching users:', error);
+                await  fetch('https://script.google.com/macros/s/AKfycbxHN-T1lDhKYqzNcVafxi7m7jjqeYdv4ZczyM5221GmbgRHAZp4B-HD6jT-x7wcoKo4FQ/exec');
             }
         });
 
