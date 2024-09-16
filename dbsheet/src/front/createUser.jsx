@@ -8,13 +8,25 @@ function CreateUser(){
     const [age,setAge] = useState()
     const navigate = useNavigate()
 
-    const Submit = (e) =>{
+    const Submit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:3001/createUser" , {name,email,age})
-        .then(result => {console.log(result)
-    navigate('/')})
-        .catch(error => console.log(error))
-    }
+        
+        axios.post("http://localhost:3001/createUser", { name, email, age })
+            .then(result => {
+                console.log(result);
+                alert("User created successfully!"); // Success message
+                navigate('/');
+            })
+            .catch(error => {
+                if (error.response && error.response.status === 400) {
+                    alert(error.response.data.message); // Show error popup if user already exists
+                } else {
+                    console.log(error);
+                    alert("An error occurred while creating the user."); // General error message
+                }
+            });
+    };
+    
 
     return(
     <div className="d-flex vh-100 bg-primary justify-content-center align-items-center" >
