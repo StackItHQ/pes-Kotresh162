@@ -29,6 +29,23 @@ async function run() {
 
         console.log("Connected to MongoDB!");
 
+        app.post('/add-to-mongo', async (req, res) => {
+            const sheetData = req.body.data; 
+
+            try {
+                // Remove all existing data from the collection
+                await collection.deleteMany({}); 
+
+                // Insert new data into MongoDB
+                const result = await collection.insertMany(sheetData); 
+                res.status(200).send('Data inserted successfully');
+                console.log('Data inserted:', result);
+            } catch (error) {
+                res.status(500).send('Error inserting data');
+                console.error('Error inserting data:', error);
+            }
+        });
+
         // API endpoint to get all users
         app.get('/', async (req, res) => {
             try {
@@ -61,6 +78,9 @@ async function run() {
                     { $set: { name: req.body.name, email: req.body.email, age: req.body.age } }
                 );
                 res.status(200).json(result);
+                
+                await fetch('https://script.google.com/macros/s/AKfycbyiCgVT44K-YdnYnFkA6nQoDQwSQevNJlaLmCtx9x2QPGgAX-poHUcZ-J4EEtPANLdvFQ/exec'); 
+                console.log('Google Sheet update triggered');
             } catch (error) {
                 res.status(500).json(error);
                 console.error('Error updating user:', error);
@@ -110,6 +130,9 @@ async function run() {
                 // If user with the given email doesn't exist, insert the new user
                 const result = await collection.insertOne(req.body);
                 res.status(200).json(result);
+
+                await fetch('https://script.google.com/macros/s/AKfycbyiCgVT44K-YdnYnFkA6nQoDQwSQevNJlaLmCtx9x2QPGgAX-poHUcZ-J4EEtPANLdvFQ/exec'); 
+                console.log('Google Sheet update triggered');
         
             } catch (error) {
                 res.status(500).json(error);
