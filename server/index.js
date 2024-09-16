@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb"); // Import ObjectId
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const cors = require('cors');
 
 const app = express();
@@ -29,6 +29,7 @@ async function run() {
 
         console.log("Connected to MongoDB!");
 
+        // Add new data to MongoDB
         app.post('/add-to-mongo', async (req, res) => {
             const sheetData = req.body.data;
         
@@ -50,25 +51,26 @@ async function run() {
                 console.error('Error inserting data:', error);
             }
         });
-        
 
-        // API endpoint to get all users
+        // Get all users
         app.get('/', async (req, res) => {
             try {
-                const users = await collection.find({}).toArray(); // Fetch all users
+                const users = await collection.find({}).toArray();
                 res.status(200).json(users);
+
+                await  fetch('https://script.google.com/macros/s/AKfycbxHN-T1lDhKYqzNcVafxi7m7jjqeYdv4ZczyM5221GmbgRHAZp4B-HD6jT-x7wcoKo4FQ/exec');
+
             } catch (error) {
                 res.status(500).json(error);
                 console.error('Error fetching users:', error);
-                await  fetch('https://script.google.com/macros/s/AKfycbxHN-T1lDhKYqzNcVafxi7m7jjqeYdv4ZczyM5221GmbgRHAZp4B-HD6jT-x7wcoKo4FQ/exec');
             }
         });
 
-        // API endpoint to get user by ID
+        // Get user by ID
         app.get('/getUser/:id', async (req, res) => {
             const id = req.params.id;
             try {
-                const user = await collection.findOne({ _id: new ObjectId(id) }); // Use ObjectId here
+                const user = await collection.findOne({ _id: id });
                 res.status(200).json(user);
             } catch (error) {
                 res.status(500).json(error);
@@ -76,19 +78,17 @@ async function run() {
             }
         });
 
-        // API endpoint to update user by ID
+        // Update user by ID
         app.put('/updateUser/:id', async (req, res) => {
             const id = req.params.id;
             try {
                 const result = await collection.updateOne(
-                    { _id: new ObjectId(id) }, // Use ObjectId here
+                    { _id: id }, // No need to convert to ObjectId
                     { $set: { name: req.body.name, email: req.body.email, age: req.body.age } }
                 );
                 res.status(200).json(result);
 
                 await fetch('https://script.google.com/macros/s/AKfycbywIz0aj4SseSBlV_cTPnAAaOtb5viOQ3MUID8lnH52Ww3x3KEOAJxxEZZ9RAZPopofpw/exec');
-
-                console.log('Google Sheet update triggered');
 
             } catch (error) {
                 res.status(500).json(error);
@@ -96,58 +96,46 @@ async function run() {
             }
         });
 
-                // API endpoint to delete user by ID
-                // API endpoint to delete user by ID
+        // Delete user by ID
         app.delete('/deleteUser/:id', async (req, res) => {
             const id = req.params.id;
             try {
-                // Check if the ID is valid ObjectId
-                // if (!ObjectId.isValid(id)) {
-                //     return res.status(400).json({ message: 'Invalid User ID' });
-                // }
-
-                // Attempt to delete the user
                 const result = await collection.deleteOne({ _id: id });
-
                 if (result.deletedCount === 0) {
-                    // If no user was deleted (i.e., the user doesn't exist)
                     return res.status(404).json({ message: 'User not found' });
                 }
-
-                // Successful deletion
                 res.status(200).json({ message: 'User deleted successfully' });
 
                 await fetch('https://script.google.com/macros/s/AKfycbywIz0aj4SseSBlV_cTPnAAaOtb5viOQ3MUID8lnH52Ww3x3KEOAJxxEZZ9RAZPopofpw/exec');
-                console.log('Google Sheet update triggered');
+
             } catch (error) {
                 res.status(500).json({ message: 'Error deleting user', error });
                 console.error('Error deleting user:', error);
             }
         });
 
-
-        // API endpoint to create a new user
+        // Create new user
         app.post('/createUser', async (req, res) => {
             try {
-                const { email } = req.body; // Only check for the email field
+                const { email } = req.body; // Check for email field
         
                 // Check if a user with the given email already exists
                 const existingUser = await collection.findOne({ email: email });
         
                 if (existingUser) {
-                    // If user with the same email already exists, return a message
-                    return res.status(400).json({ message: 'User with this email is already present in the database.' });
+                    return res.status(400).json({ message: 'User with this email already exists.' });
                 }
         
-                // If user with the given email doesn't exist, insert the new user
+                // Insert new user
                 const result = await collection.insertOne(req.body);
                 res.status(200).json(result);
-        
+                await fetch('https://script.google.com/macros/s/AKfycbywIz0aj4SseSBlV_cTPnAAaOtb5viOQ3MUID8lnH52Ww3x3KEOAJxxEZZ9RAZPopofpw/exec');
+
             } catch (error) {
                 res.status(500).json(error);
                 console.error('Error creating user:', error);
             }
-        });        
+        });
 
         // Start the server
         const PORT = process.env.PORT || 3001;
