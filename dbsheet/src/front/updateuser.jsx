@@ -12,7 +12,7 @@ function UpdateUser() {
 
    // Fetch user data only when component mounts or when 'id' changes
    useEffect(() => {
-      axios.get('http://localhost:3001/getUser/' + id)
+      axios.get('https://databasetogsheet-2.onrender.com/getUser/' + id)
          .then(result => {
             console.log(result);
             setName(result.data.name);
@@ -25,7 +25,7 @@ function UpdateUser() {
    // Update user details
    const update = (e) => {
       e.preventDefault();
-      axios.put("http://localhost:3001/updateUser/" + id, { name, email, age })
+      axios.put("https://databasetogsheet-2.onrender.com/updateUser/" + id, { name, email, age })
          .then(result => {
             console.log(result);
             navigate('/');

@@ -6,13 +6,13 @@ function User() {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3001')
+        axios.get('https://databasetogsheet-2.onrender.com')
             .then(result => setUsers(result.data))
             .catch(err => console.log(err));
     }, []); // Added dependency array to prevent infinite loop
 
     const deleteUser = (id) => {
-        axios.delete('http://localhost:3001/deleteUser/' + id) // Corrected the endpoint
+        axios.delete('https://databasetogsheet-2.onrender.com/deleteUser/' + id) // Corrected the endpoint
             .then(response => {
                 console.log(response);
                 // Update the state to reflect the deletion without reloading the page
