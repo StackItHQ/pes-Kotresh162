@@ -85,8 +85,9 @@ async function run() {
                 );
                 res.status(200).json(result);
 
-                await fetch('https://script.google.com/macros/s/AKfycbyiCgVT44K-YdnYnFkA6nQoDQwSQevNJlaLmCtx9x2QPGgAX-poHUcZ-J4EEtPANLdvFQ/exec'); 
-                console.log('Google Sheet update triggered');
+                // await fetch('https://script.google.com/macros/s/AKfycbyiCgVT44K-YdnYnFkA6nQoDQwSQevNJlaLmCtx9x2QPGgAX-poHUcZ-J4EEtPANLdvFQ/exec');
+
+                // console.log('Google Sheet update triggered');
 
             } catch (error) {
                 res.status(500).json(error);
@@ -138,8 +139,9 @@ async function run() {
                 const result = await collection.insertOne(req.body);
                 res.status(200).json(result);
 
-                await fetch('https://script.google.com/macros/s/AKfycbyiCgVT44K-YdnYnFkA6nQoDQwSQevNJlaLmCtx9x2QPGgAX-poHUcZ-J4EEtPANLdvFQ/exec'); 
-                console.log('Google Sheet update triggered');
+                // await fetch('https://script.google.com/macros/s/AKfycbyiCgVT44K-YdnYnFkA6nQoDQwSQevNJlaLmCtx9x2QPGgAX-poHUcZ-J4EEtPANLdvFQ/exec');
+                 
+                // console.log('Google Sheet update triggered');
         
             } catch (error) {
                 res.status(500).json(error);
