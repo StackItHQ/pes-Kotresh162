@@ -59,3 +59,7 @@ All the best ✨.
 
 ## Developer's Section
 *Add your video here, and your approach to the problem (optional). Leave some comments for us here if you want, we will be reading this :)*
+#######################################################
+ i working on this project from past two days i coverd crud and real time update in both way fronted user interaction google sheet and googlesheet interaction -> home page of web.
+ i used google script for the triggering of functions i created.
+ the final approach is web app -> apps script -> google sheet
